@@ -94,5 +94,18 @@ public class SampleWebAppApplicationTests {
         assertEquals(false, hasBoy);
     }
 
-    
+    @Test
+    public void should_find_parking_boy_by_employee_id() throws Exception {
+        // Given
+
+        final ParkingBoy parkingBoy1 = parkingBoyRepository.save(new ParkingBoy("parkingBoy1"));
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get("/parkingboys/parkingBoy1")).andReturn();
+        // Then
+        assertEquals(200, result.getResponse().getStatus());
+        final ParkingBoyResponse parkingBoy = getContentAsObject(result, ParkingBoyResponse.class);
+        assertEquals("parkingBoy1", parkingBoy.getEmployeeId());
+    }
 }
