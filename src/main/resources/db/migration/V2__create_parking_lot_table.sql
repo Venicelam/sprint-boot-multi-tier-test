@@ -1,5 +1,6 @@
 create table parking_lot (
     id                  bigint  not null,
-    parking_boy_id      bigint  null,
+    parkingLotID      varchar(15)  not null,
+    capacity        bigint          not null,
     primary key (id)
 )
