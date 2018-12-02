@@ -19,7 +19,7 @@ public class ParkingLot {
 
     @Range(min = 1, max = 100)
     private int capacity;
-    public ParkingLot() {}
+    public ParkingLot(String lot, int i) {}
 
     public int getCapacity() {
         return capacity;
