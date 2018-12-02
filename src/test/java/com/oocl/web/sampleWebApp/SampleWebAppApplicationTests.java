@@ -36,15 +36,15 @@ public class SampleWebAppApplicationTests {
     @Autowired
     private MockMvc mvc;
 
-	@Test
-	public void should_get_parking_boys() throws Exception {
-	    // Given
+    @Test
+    public void should_get_parking_boys() throws Exception {
+        // Given
         final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("boy"));
 
         // When
         final MvcResult result = mvc.perform(MockMvcRequestBuilders
-            .get("/parkingboys"))
-            .andReturn();
+                .get("/parkingboys"))
+                .andReturn();
 
         // Then
         assertEquals(200, result.getResponse().getStatus());
@@ -57,7 +57,7 @@ public class SampleWebAppApplicationTests {
 
     @Test
     public void should_add_parking_boys() throws Exception {
-	    //Given
+        //Given
         ParkingBoy parkingBoy = new ParkingBoy("1");
         final ObjectMapper mapper = new ObjectMapper();
         final String jsonContent = mapper.writeValueAsString(parkingBoy);
@@ -73,5 +73,24 @@ public class SampleWebAppApplicationTests {
         ParkingBoy newParkingBoy = parkingBoyRepository.findAll().get(0);
         assertEquals(201, result.getResponse().getStatus());
         assertEquals("1", newParkingBoy.getEmployeeId());
+    }
+
+    @Test
+    public void should_return_bad_request_when_id_exceed() throws Exception {
+        // Given
+        ParkingBoy longParkingBoy = new ParkingBoy("123456789012345678");
+        final ObjectMapper mapper = new ObjectMapper();
+        final String jsonContent = mapper.writeValueAsString(longParkingBoy);
+        // When
+        final MvcResult result = mvc.perform(post("/parkingboys")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonContent))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        // Then
+        boolean hasBoy = parkingBoyRepository.findById(1L).isPresent();
+        assertEquals(400, result.getResponse().getStatus());
+        assertEquals(false, hasBoy);
     }
 }
