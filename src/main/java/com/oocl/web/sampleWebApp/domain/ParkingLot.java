@@ -14,6 +14,7 @@ public class ParkingLot {
 
     @Column(name = "parkingLotID", length = 15, unique = true, nullable = false)
     private String parkingLotId;
+    private String parkingBoyId;
 
     @Range(min = 1, max = 100)
     @Column(name = "capacity", length = 3, nullable = false)
@@ -41,5 +42,12 @@ public class ParkingLot {
 
     public void setParkingLotId(String parkingLotId) {
         this.parkingLotId = parkingLotId;
+    }
+
+    public String getParkingBoyId() {
+        return parkingBoyId;
+    }
+    public void setParkingBoyId(String parkingBoyId) {
+        this.parkingBoyId = parkingBoyId;
     }
 }
