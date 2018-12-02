@@ -67,4 +67,20 @@ public class ParkingLotTests {
         assertEquals(80, addLot.getCapacity());
     }
 
+    @Test
+    public void should_return_bad_request_when_paringLotId_exceed() throws Exception {
+        // Given
+        ParkingLot longParkingLot = new ParkingLot("12345678901",100);
+        final ObjectMapper mapper = new ObjectMapper();
+        final String jsonContent = mapper.writeValueAsString(longParkingLot);
+        // When
+        final MvcResult result = mvc.perform(post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON).content(jsonContent)).andDo(print())
+                .andExpect(status().isBadRequest()).andReturn();
+        // Then
+        boolean addLot = parkingLotRepository.findAll().equals(longParkingLot);
+        assertEquals(400, result.getResponse().getStatus());
+        assertEquals(false, addLot);
+    }
+
 }
