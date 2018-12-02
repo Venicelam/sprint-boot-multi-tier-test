@@ -3,8 +3,13 @@ package com.oocl.web.sampleWebApp.domain;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+
+@Entity
+@Table(name = "parking_lot")
 public class ParkingLot {
     @Id
     private Long Id;
